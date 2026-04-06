@@ -88,7 +88,9 @@ def run_ux_audit_worker(task_id, url):
         
         update_status(task_id, "Ensuring screenshot engine is fully downloaded on server...")
         try:
-            subprocess.run(["python", "-m", "playwright", "install", "chromium"], check=True, capture_output=True)
+            import sys
+            os.environ['PLAYWRIGHT_BROWSERS_PATH'] = '/opt/render/project/src/.playwright'
+            subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=True)
         except Exception as e:
             print(f"Failed to auto-install playwright: {e}")
         
