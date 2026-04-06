@@ -50,9 +50,9 @@ def run_ux_audit_worker(task_id, url):
         brand = domain.replace('www.', '').split('.')[0].capitalize()
         
         # 1. Setup Gemini
-        api_key = os.environ.get('GEMINI_API_KEY')
+        api_key = os.environ.get('GEMINI_API_KEY', 'AIzaSyD8epQhxzFIfFuMWyYarb3SE5t6i-bC0V0')
         if not api_key:
-            update_status(task_id, "Critical Error", True, "GEMINI_API_KEY environment variable is not set!")
+            update_status(task_id, "Critical Error", True, "GEMINI_API_KEY is not configured!")
             return
             
         genai.configure(api_key=api_key)
