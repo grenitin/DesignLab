@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Audit Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>UX Audit Heuristic Evaluation</h1>
+        <p class="subtitle">AI-powered automated usability evaluations for web interfaces.</p>
+
+        <div class="glass-panel">
+            <h3>New Evaluation</h3>
+            <p style="color: var(--text-muted); margin-top: 5px; font-size: 0.9rem;">Enter the URL of the website you want to audit.</p>
+            
+            <form id="auditForm" class="input-group">
+                <input type="url" id="urlInput" placeholder="https://example.com" required>
+                <button type="submit" id="submitBtn">
+                    <span id="btnText">Evaluate</span>
+                    <div class="loader" id="loader"></div>
+                </button>
+            </form>
+            <div id="statusMessage" style="margin-top: 15px; font-size: 0.9rem; color: var(--success); display: none;">
+                Evaluation complete! Google Sheets updated. Scroll down to view.
+            </div>
+        </div>
+
+        <div class="glass-panel">
+            <h3 style="margin-bottom: 20px;">Recent Audits</h3>
+            <div class="audit-list" id="auditList">
+                {% for audit in audits %}
+                <div class="audit-item">
+                    <div class="brand-name">{{ audit.brand }}</div>
+                    <a href="/view/{{ audit.brand }}" class="cta-button">View Report</a>
+                </div>
+                {% else %}
+                <div style="color: var(--text-muted); text-align: center; padding: 20px;">
+                    No audits found. Run an evaluation to get started.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('auditForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const urlInput = document.getElementById('urlInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const loader = document.getElementById('loader');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // UI Loading state
+            urlInput.disabled = true;
+            submitBtn.disabled = true;
+            btnText.innerText = 'Evaluating...';
+            loader.style.display = 'block';
+            statusMessage.style.display = 'none';
+            
+            try {
+                const response = await fetch('/evaluate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: urlInput.value })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusMessage.style.display = 'block';
+                    setTimeout(() => { window.location.reload(); }, 1500);
+                } else {
+                    alert("Error: " + data.error);
+                }
+            } catch (err) {
+                alert("Request failed: " + err);
+            } finally {
+                urlInput.disabled = false;
+                submitBtn.disabled = false;
+                btnText.innerText = 'Evaluate';
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
