@@ -17,7 +17,6 @@
             <p style="color: var(--text-muted); margin-top: 5px; font-size: 0.9rem;">Enter the URL of the website you want to audit.</p>
             
             <form id="auditForm" class="input-group" style="flex-direction: column; gap: 10px;">
-                <input type="text" id="apiInput" placeholder="Enter Gemini API Key" style="width: 100%; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: white; padding: 12px 20px; border-radius: 8px;" required>
                 <div style="display: flex; gap: 10px;">
                     <input type="url" id="urlInput" placeholder="https://example.com" style="flex: 1;" required>
                     <button type="submit" id="submitBtn">
@@ -53,14 +52,12 @@
             e.preventDefault();
             
             const urlInput = document.getElementById('urlInput');
-            const apiInput = document.getElementById('apiInput');
             const submitBtn = document.getElementById('submitBtn');
             const btnText = document.getElementById('btnText');
             const loader = document.getElementById('loader');
             const statusMessage = document.getElementById('statusMessage');
             
             urlInput.disabled = true;
-            apiInput.disabled = true;
             submitBtn.disabled = true;
             btnText.innerText = 'Initializing...';
             loader.style.display = 'block';
@@ -72,7 +69,7 @@
                 const response = await fetch('/evaluate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: urlInput.value, api_key: apiInput.value })
+                    body: JSON.stringify({ url: urlInput.value })
                 });
                 
                 const data = await response.json();
@@ -94,7 +91,6 @@
                                     statusMessage.style.color = '#ff4d4d';
                                     statusMessage.innerText = "Failed: " + statusData.error;
                                     urlInput.disabled = false;
-                                    apiInput.disabled = false;
                                     submitBtn.disabled = false;
                                     btnText.innerText = 'Evaluate';
                                     loader.style.display = 'none';
@@ -112,7 +108,6 @@
                     statusMessage.style.color = '#ff4d4d';
                     statusMessage.innerText = "Error: " + data.error;
                     urlInput.disabled = false;
-                    apiInput.disabled = false;
                     submitBtn.disabled = false;
                     btnText.innerText = 'Evaluate';
                     loader.style.display = 'none';
@@ -121,7 +116,6 @@
                 statusMessage.style.color = '#ff4d4d';
                 statusMessage.innerText = "Request failed: " + err;
                 urlInput.disabled = false;
-                apiInput.disabled = false;
                 submitBtn.disabled = false;
                 btnText.innerText = 'Evaluate';
                 loader.style.display = 'none';

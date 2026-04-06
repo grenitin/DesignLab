@@ -25,10 +25,8 @@ def index():
 def evaluate():
     data = request.json
     url = data.get('url')
-    api_key = data.get('api_key')
     
     if not url: return jsonify({'error': 'URL is required'}), 400
-    if not api_key: return jsonify({'error': 'Gemini API Key is required'}), 400
     
     from ai_evaluator import run_ux_audit_worker, TASKS
     import threading
@@ -37,7 +35,7 @@ def evaluate():
     task_id = str(uuid.uuid4())
     TASKS[task_id] = {"status": "Starting up...", "complete": False, "error": None}
     
-    thread = threading.Thread(target=run_ux_audit_worker, args=(task_id, url, api_key))
+    thread = threading.Thread(target=run_ux_audit_worker, args=(task_id, url))
     thread.daemon = True
     thread.start()
     

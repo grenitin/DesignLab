@@ -38,7 +38,7 @@ def get_page_links(base_url, max_links=2):
     except Exception:
         return []
 
-def run_ux_audit_worker(task_id, url, api_key):
+def run_ux_audit_worker(task_id, url):
     try:
         update_status(task_id, f"Initializing AI Core for {url}...")
         
@@ -50,6 +50,11 @@ def run_ux_audit_worker(task_id, url, api_key):
         brand = domain.replace('www.', '').split('.')[0].capitalize()
         
         # 1. Setup Gemini
+        api_key = os.environ.get('GEMINI_API_KEY')
+        if not api_key:
+            update_status(task_id, "Critical Error", True, "GEMINI_API_KEY environment variable is not set!")
+            return
+            
         genai.configure(api_key=api_key)
         # We use standard gemini-1.5-flash as it's free-tier friendly, very fast, and supports vision.
         model = genai.GenerativeModel('gemini-1.5-flash')
