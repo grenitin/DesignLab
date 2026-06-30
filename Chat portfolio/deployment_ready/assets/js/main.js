@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sliderSlides[index].classList.add('active');
             if (sliderDots[index]) sliderDots[index].classList.add('active');
             
-            // Update Hero Asset - Disabled for single hero image (nitin.png)
+            // Update Hero Asset - Disabled for single hero-image (nitin.png)
             /*
             if (heroAsset && heroImages[index]) {
                 heroAsset.style.opacity = '0';
