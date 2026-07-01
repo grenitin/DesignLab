@@ -343,6 +343,9 @@ def status(task_id):
             if task.get('status') != last_status:
                 yield f"data: {json.dumps(task)}\n\n"
                 last_status = task.get('status')
+            else:
+                # Send a keep-alive comment every second to prevent Render/proxies from dropping the connection
+                yield f": ping\n\n"
 
             if task.get('complete'):
                 break
