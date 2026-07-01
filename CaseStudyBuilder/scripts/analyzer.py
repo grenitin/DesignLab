@@ -234,10 +234,18 @@ def detect_localization(url):
         return 'India'
     return 'International'
 
-def run_analysis_worker(task_id, url, case_type, platform, localization, primary_color, secondary_color, artifacts_requested, theme='dark'):
+def run_analysis_worker(task_id, url, case_type='redesign', platform='web', localization='International', primary_color='#5c62ec', secondary_color='#00d2ff', artifacts_requested=None, theme='dark', custom_api_key=None):
+    if artifacts_requested is None:
+        artifacts_requested = []
+        
     try:
+        if custom_api_key:
+            genai.configure(api_key=custom_api_key)
+        else:
+            genai.configure(api_key=API_KEY)
+            
         # Cast inputs to be safe
-        artifacts_requested = list(artifacts_requested) if artifacts_requested is not None else []
+        artifacts_requested = list(artifacts_requested)
         localization = str(localization)
         case_type = str(case_type)
         platform = str(platform)

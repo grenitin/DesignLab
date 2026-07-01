@@ -295,15 +295,20 @@ def analyze_colors():
 
 @app.route('/start_analysis', methods=['POST'])
 def start_analysis():
-    # Freemium Gate
-    client_ip = request.remote_addr
-    usage_count = get_usage(client_ip)
-    if usage_count >= 2: 
-        return jsonify({'error': 'LIMIT_REACHED'}), 402
-    
-    # We no longer increment here. It increments when they download.
-    
     data = request.get_json()
+    api_key = data.get('api_key', '').strip()
+    
+    # If using dummy bullets or empty, treat as no custom key provided
+    if api_key == '' or api_key == '••••••••••••••••••••••••':
+        api_key = None
+        
+    # Freemium Gate (Bypass if custom key provided)
+    if not api_key:
+        client_ip = request.remote_addr
+        usage_count = get_usage(client_ip)
+        if usage_count >= 2: 
+            return jsonify({'error': 'LIMIT_REACHED'}), 402
+    
     url = data.get('url', '').strip()
     case_type = data.get('case_type', 'redesign')
     platform = data.get('platform', 'web')
@@ -317,7 +322,7 @@ def start_analysis():
     update_status(task_id, "Initializing Case Study Builder...", progress=5)
     
     # Run analyzer in a separate thread
-    thread = threading.Thread(target=analyzer.run_analysis_worker, args=(task_id, url, case_type, platform, localization, primary_color, secondary_color, artifacts, theme))
+    thread = threading.Thread(target=analyzer.run_analysis_worker, args=(task_id, url, case_type, platform, localization, primary_color, secondary_color, artifacts, theme, api_key))
     thread.start()
     
     return jsonify({'task_id': task_id})

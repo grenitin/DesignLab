@@ -132,7 +132,8 @@ async function startAnalysis() {
                 primary_color: document.getElementById('primary-color').value,
                 secondary_color: document.getElementById('secondary-color').value,
                 theme: current_theme,
-                artifacts: artifacts
+                artifacts: artifacts,
+                api_key: document.getElementById('global-api-key').value
             })
         });
         
@@ -245,6 +246,26 @@ document.getElementById('btn-next-to-platform').addEventListener('click', async 
         showScreen('screen-platform'); // fallback
     }
 });
+
+    document.getElementById('btn-next-to-platform').addEventListener('click', () => {
+        showScreen('screen-platform');
+    });
+
+    document.getElementById('btn-back-to-input').addEventListener('click', () => {
+        showScreen('screen-input');
+    });
+
+    const submitKeyBtn = document.getElementById('btn-submit-key');
+    if (submitKeyBtn) {
+        submitKeyBtn.addEventListener('click', () => {
+            const newKey = document.getElementById('popup-api-key').value.trim();
+            if (newKey) {
+                document.getElementById('global-api-key').value = newKey;
+                document.getElementById('premium-popup').classList.remove('active');
+                startAnalysis();
+            }
+        });
+    }
 
 document.getElementById('btn-next-to-geo').addEventListener('click', () => {
     showScreen('screen-geo');
