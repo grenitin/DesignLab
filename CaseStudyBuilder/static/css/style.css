@@ -147,7 +147,7 @@ body {
 .upload-zone {
     border: 2px dashed var(--border);
     border-radius: var(--radius-shape);
-    padding: 40px;
+    padding: 20px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;

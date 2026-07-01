@@ -331,98 +331,6 @@
     </style>
 </head>
 <body>
-    <div class="api-key-bar">
-        <div class="api-key-inner glass">
-            <div class="api-key-dropdown">
-                <select id="api-model-select">
-                    <option value="gemini">GEMINI</option>
-                </select>
-                <span class="dropdown-icon">⌄</span>
-            </div>
-            <div class="api-key-input-container">
-                <span class="key-icon">🔑</span>
-                <input type="password" id="global-api-key" value="••••••••••••••••••••••••" placeholder="Paste your API Key here">
-            </div>
-        </div>
-    </div>
-    <style>
-        .api-key-bar {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding: 1rem 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 100;
-        }
-        .api-key-inner {
-            display: flex;
-            align-items: center;
-            background: rgba(15, 15, 20, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            overflow: hidden;
-            width: 90%;
-            max-width: 600px;
-        }
-        .api-key-dropdown {
-            position: relative;
-            background: rgba(255, 255, 255, 0.02);
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0 1rem;
-            display: flex;
-            align-items: center;
-        }
-        .api-key-dropdown select {
-            appearance: none;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-family: var(--font-heading);
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            padding: 0.8rem 1.5rem 0.8rem 0;
-            cursor: pointer;
-            outline: none;
-        }
-        .dropdown-icon {
-            position: absolute;
-            right: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            pointer-events: none;
-            font-size: 0.8rem;
-        }
-        .api-key-input-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            padding: 0 1rem;
-            gap: 0.5rem;
-        }
-        .key-icon {
-            font-size: 0.9rem;
-            opacity: 0.5;
-            filter: grayscale(100%);
-        }
-        .api-key-input-container input {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            width: 100%;
-            outline: none;
-            letter-spacing: 0.1em;
-        }
-        .api-key-input-container input:focus {
-            letter-spacing: normal;
-        }
-        .app-container {
-            margin-top: 80px; /* offset for the api bar */
-        }
-    </style>
     <div id="app" class="app-container">
         
         <!-- SCREEN 1: START -->
@@ -434,6 +342,22 @@
             </div>
             
             <div class="input-card glass">
+                <div class="input-group">
+                    <label for="global-api-key">Custom API Key (Optional)</label>
+                    <div style="display: flex; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; align-items: center;">
+                        <div style="padding: 0 1rem; border-right: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; background: rgba(255,255,255,0.02);">
+                            <select id="api-model-select" style="appearance: none; background: transparent; border: none; color: #fff; font-family: var(--font-heading); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; outline: none; padding: 0.8rem 1rem 0.8rem 0; cursor: pointer;">
+                                <option value="gemini">GEMINI</option>
+                            </select>
+                            <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-left: -0.5rem; pointer-events: none;">⌄</span>
+                        </div>
+                        <div style="flex: 1; display: flex; align-items: center; padding: 0 1rem; gap: 0.5rem;">
+                            <span style="font-size: 0.9rem; opacity: 0.5; filter: grayscale(100%);">🔑</span>
+                            <input type="password" id="global-api-key" value="••••••••••••••••••••••••" placeholder="Paste your API Key here" style="background: transparent; border: none; color: #fff; font-family: var(--font-mono); font-size: 0.85rem; width: 100%; outline: none; letter-spacing: 0.1em; padding: 0.8rem 0;">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="input-group">
                     <label for="url-input">Project Entry Point</label>
                     <input type="text" id="url-input" placeholder="Paste your website, Figma, or Marvel link here" spellcheck="false">
