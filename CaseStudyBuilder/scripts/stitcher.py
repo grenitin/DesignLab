@@ -69,8 +69,8 @@ def render_case_study(task_id, data):
             )
             page = context.new_page()
             
-            # Load local file and wait for network to be completely idle
-            page.goto(f"file://{os.path.abspath(temp_html_path)}", wait_until="networkidle", timeout=30000)
+            # Load local file and wait for 'load' instead of 'networkidle' to speed it up
+            page.goto(f"file://{os.path.abspath(temp_html_path)}", wait_until="load", timeout=15000)
             
             # Force disable all animations/transitions and make .reveal elements fully visible instantly
             page.add_style_tag(content="""
@@ -88,7 +88,7 @@ def render_case_study(task_id, data):
             page.evaluate("document.querySelectorAll('.cs-section, .cs-accordion-section').forEach(el => el.classList.add('cs-expanded'));")
             
             # Wait extra time for any dynamic render and fonts (optional safety)
-            time.sleep(2)
+            # time.sleep removed for speed
             
             # Capture full page vertical screenshot
             page.screenshot(path=output_img_path, full_page=True)

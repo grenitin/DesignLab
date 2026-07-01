@@ -198,6 +198,11 @@ body.dark-mode .cs-section-marker {
     color: var(--accent);
 }
 
+.cs-section.cs-expanded .cs-section-header {
+    background-color: color-mix(in srgb, var(--primary) 5%, transparent);
+    border-bottom-color: transparent;
+}
+
 .cs-section-header::after {
     content: '+';
     position: absolute;
@@ -2225,10 +2230,10 @@ body.theme-modern .bubble.b8 {
 
 /* --- 3. THEME: MINIMALIST (NORDIC LIGHT MODE) --- */
 body.theme-minimalist {
-    --bg-main: #F9FAFB !important;
-    --bg-canvas: #FFFFFF !important;
-    --bg-card: rgba(243, 244, 246, 0.7) !important;
-    --bg-card-heavy: rgba(229, 231, 235, 0.9) !important;
+    --bg-main: #FDFBF7 !important;
+    --bg-canvas: #F9F7F1 !important;
+    --bg-card: rgba(253, 251, 247, 0.7) !important;
+    --bg-card-heavy: rgba(253, 251, 247, 0.9) !important;
     --text-primary: #111827 !important;
     --text-secondary: #4B5563 !important;
     --text-muted: #9CA3AF !important;
@@ -2244,7 +2249,7 @@ body.theme-minimalist {
 }
 /* Ensure clean background contrast overrides for Minimalist cards and panels */
 body.theme-minimalist .cs-section-header {
-    background: #FFFFFF !important;
+    background: #FDFBF7 !important;
     border-bottom: 1.5px solid rgba(17, 24, 39, 0.08) !important;
 }
 body.theme-minimalist .cs-section-header::after {
@@ -2252,7 +2257,7 @@ body.theme-minimalist .cs-section-header::after {
     border-color: rgba(17, 24, 39, 0.1) !important;
 }
 body.theme-minimalist .cs-card {
-    background: #FFFFFF !important;
+    background: #FDFBF7 !important;
     border-color: rgba(17, 24, 39, 0.08) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
 }
@@ -2264,7 +2269,7 @@ body.theme-minimalist .cs-hero-centered {
     border-bottom: 1.5px solid rgba(17, 24, 39, 0.08) !important;
 }
 body.theme-minimalist .cs-meta-row {
-    background: #FFFFFF !important;
+    background: #FDFBF7 !important;
     border-color: rgba(17, 24, 39, 0.08) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
 }

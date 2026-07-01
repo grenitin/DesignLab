@@ -12,6 +12,35 @@ import analyzer
 
 app = Flask(__name__)
 
+# Use /tmp/ in Vercel as it's the only writable directory
+USAGE_DB_FILE = os.path.join('/tmp', 'usage_db.json')
+
+def get_usage(ip):
+    if not os.path.exists(USAGE_DB_FILE):
+        return 0
+    try:
+        with open(USAGE_DB_FILE, 'r') as f:
+            db = json.load(f)
+            return db.get(ip, 0)
+    except:
+        return 0
+
+def increment_usage(ip):
+    db = {}
+    if os.path.exists(USAGE_DB_FILE):
+        try:
+            with open(USAGE_DB_FILE, 'r') as f:
+                db = json.load(f)
+        except:
+            pass
+    db[ip] = db.get(ip, 0) + 1
+    try:
+        with open(USAGE_DB_FILE, 'w') as f:
+            json.dump(db, f)
+    except:
+        pass
+
+
 # --- Contrast Utility Functions ---
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
@@ -248,6 +277,14 @@ def review_skeleton():
     
     return render_template('case_study_render.html', **cleaned_data)
 
+@app.route('/check_limit', methods=['GET'])
+def check_limit():
+    # 1 Attempt Limit for public deployment
+    ip = request.remote_addr
+    if get_usage(ip) >= 1:
+        return jsonify({"error": "LIMIT_REACHED", "message": "Premium upgrade required."}), 402
+    return jsonify({"status": "OK"}), 200
+
 @app.route('/analyze_colors', methods=['POST'])
 def analyze_colors():
     data = request.get_json()
@@ -260,6 +297,14 @@ def analyze_colors():
 
 @app.route('/start_analysis', methods=['POST'])
 def start_analysis():
+    # Freemium Gate
+    client_ip = request.remote_addr
+    usage_count = get_usage(client_ip)
+    if usage_count >= 1: 
+        return jsonify({'error': 'LIMIT_REACHED'}), 402
+        
+    increment_usage(client_ip)
+    
     data = request.get_json()
     url = data.get('url', '').strip()
     case_type = data.get('case_type', 'redesign')

@@ -28,9 +28,24 @@
             {% if theme_color or primary_color %}
             {% set p_col = theme_color or primary_color %}
             --primary: {{ p_col }} !important;
-            --accent: {{ p_col }} !important;
-            --text-accent: {{ text_accent_color|default(p_col) }} !important;
-            --hi-fi-accent: {{ p_col }} !important;
+            --accent: color-mix(in srgb, {{ p_col }} 45%, #FFFFFF) !important;
+            
+            /* Universal Vibrant Accessibility Overrides */
+            --text-primary: #FFFFFF !important;
+            
+            /* 60% translucent white for subtitles, keeping accents theme-colored */
+            --text-secondary: rgba(255, 255, 255, 0.6) !important;
+            --text-accent: color-mix(in srgb, {{ p_col }} 45%, #FFFFFF) !important;
+            --hi-fi-accent: color-mix(in srgb, {{ p_col }} 45%, #FFFFFF) !important;
+            --text-muted: rgba(255, 255, 255, 0.4) !important;
+            
+            /* Vibrant, Deep Backgrounds based on Theme Color */
+            --bg-main: color-mix(in srgb, {{ p_col }} 8%, #0A0A0C) !important;
+            --bg-canvas: color-mix(in srgb, {{ p_col }} 12%, #111115) !important;
+            
+            /* Bright Translucent Glass for Boxes (20% Opacity) */
+            --bg-card: color-mix(in srgb, {{ p_col }} 20%, transparent) !important;
+            --bg-card-heavy: color-mix(in srgb, {{ p_col }} 30%, transparent) !important;
             
             /* Generate Opacities for Primary Theme */
             --accent-10: {{ p_col }}1A !important;
@@ -3815,7 +3830,7 @@
 
     <footer class="cs-footer">
         <div class="cs-footer-container">
-            <p>© 2026 Nitin Kr. • UX Case Study Portfolio</p>
+            <p>© 2026 NITIN'S CASESTUDY BUILDER</p>
         </div>
     </footer>
 

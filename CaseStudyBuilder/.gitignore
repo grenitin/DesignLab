@@ -1,0 +1,7 @@
+# Generated artifacts
+data/tasks/*
+static/output/*
+usage_db.json
+__pycache__/
+*.pyc
+.env

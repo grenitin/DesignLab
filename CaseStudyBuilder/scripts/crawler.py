@@ -33,7 +33,7 @@ def crawl(url, platform, hero_path, ui_path):
                     url += '?emb=1&iosapp=false&frameless=1'
                     
             print(f"Crawling {url} for screenshots...")
-            page.goto(url, wait_until="networkidle", timeout=60000)
+            page.goto(url, wait_until="load", timeout=30000)
             
             if 'figma.com' in url.lower():
                 print("Figma URL detected, waiting extra time for WebGL canvas...")

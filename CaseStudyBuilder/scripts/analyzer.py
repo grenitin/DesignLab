@@ -163,7 +163,20 @@ def safe_json_parse(raw_text):
                 raise e
 
 # Configuration
-API_KEY = os.getenv('GOOGLE_API_KEY', 'AIzaSyBvKSMJKdkk58K1cIws82XJRZQLjhyILuc')
+def load_env():
+    env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+    if os.path.exists(env_path):
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    k, v = line.split('=', 1)
+                    os.environ[k] = v
+
+load_env()
+API_KEY = os.getenv('GOOGLE_API_KEY')
+if not API_KEY:
+    raise ValueError("GOOGLE_API_KEY is missing from environment variables.")
 genai.configure(api_key=API_KEY)
 
 def update_status(task_id, message, complete=False, error=None, current_task=None, progress=0):
